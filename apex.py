@@ -38,6 +38,10 @@ class Apex:
 
     def get_shipping_orders(self, query: ApexQuery = None) -> List[object]:
         url = os.path.join(self.base_url, 'shipping-orders')
-        response = requests.get(url, headers=self.headers)
+        params = {
+            'order_date_from': query.start_date,
+            'order_date_to': query.end_date,
+        }
+        response = requests.get(url, headers=self.headers, params=params)
         response_object = json.loads(response.text)
         return response_object
