@@ -19,8 +19,12 @@ if __name__ == '__main__':
     apex = Apex()
     start, end = dates(NUMBER_OF_DAYS_TO_QUERY)
     query = ApexQuery(start=start, end=end)
-    products = apex.get_shipping_orders(query=query)
-    products_raw = json.dumps(products, indent=2)
+    orders = apex.get_shipping_orders(query=query)
+    orders_raw = json.dumps(orders, indent=2)
     with open(os.path.join(DATA_FOLDER, SHIPPING_ORDERS_FILE), 'w') as f:
-        f.write(products_raw)
-    print(products_raw)
+        f.write(orders_raw)
+    # print(orders_raw)
+    for order in orders['orders']:
+        buyer_name = order['buyer']['name']
+        order_total = order['total']
+        print(f'Buyer Name: {buyer_name} | Total: {order_total}')

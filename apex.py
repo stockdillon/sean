@@ -4,6 +4,8 @@ import os
 from typing import List
 import requests
 
+from apex_types import ShippingOrdersResponse
+
 APEX_API_KEY = 'APEX_API_KEY'
 
 
@@ -36,12 +38,12 @@ class Apex:
         }
         print('created apex client')
 
-    def get_shipping_orders(self, query: ApexQuery = None) -> List[object]:
+    def get_shipping_orders(self, query: ApexQuery = None) -> ShippingOrdersResponse:
         url = os.path.join(self.base_url, 'shipping-orders')
         params = {
             'order_date_from': query.start_date,
             'order_date_to': query.end_date,
         }
         response = requests.get(url, headers=self.headers, params=params)
-        response_object = json.loads(response.text)
+        response_object: ShippingOrdersResponse = json.loads(response.text)
         return response_object
